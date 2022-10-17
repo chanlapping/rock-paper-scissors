@@ -6,14 +6,14 @@
 function getComputerChoice() {
     let choice = Math.floor(Math.random() * 3);
     if (choice === 0) {
-        return "Rock";
+        return "rock";
     }
     
     if (choice === 1) {
-        return "Paper";
+        return "paper";
     }
 
-    return "Scissors";
+    return "scissors";
 }
 
 // function playRound
@@ -28,27 +28,67 @@ function playRound(playerSelection, computerSelection) {
         return "Draw";
     }
     if (playerSelection === "rock" && computerSelection === "paper") {
-        return "Computer wins. Rock loses to paper.";
+        return "Computer";
     }
     if (playerSelection === "rock" && computerSelection === "scissors") {
-        return "You win. Rock beats scissors.";
+        return "Player";
     }
     if (playerSelection === "paper" && computerSelection === "scissors") {
-        return "Computer wins. Paper loses to scissors.";
+        return "Computer";
     }
     if (playerSelection === "paper" && computerSelection === "rock") {
-        return "You win. Paper beats rock.";
+        return "Player";
     }
     if (playerSelection === "scissors" && computerSelection === "rock") {
-        return "Computer wins. Scissors lose to rock.";
+        return "Computer";
     }
     if (playerSelection === "scissors" && computerSelection === "paper") {
-        return "You win. Scissors beat paper.";
+        return "Player";
     }
 }
 
-const playerSelection = "rock";
-const computerSelection = getComputerChoice();
-console.log(playerSelection);
-console.log(computerSelection);
-console.log(playRound(playerSelection, computerSelection));
+// game function
+// play 5 rounds
+// keep scores. report winner at the end.
+// display result of each round
+// use prompt to get player selection
+
+// player score = 0, computer score = 0
+// loop 5 times:
+//   get user selection
+//   get computer choice
+//   play one round, show result
+//   update scores
+// determine final result
+// log winner
+
+function game() {
+    let playerScore = 0;
+    let computerScore = 0;
+    for (let i = 0; i < 5; i++) {
+        let playerSelection = prompt("What is your choice? (rock, paper or scissors)");
+        let computerSelection = getComputerChoice();
+        let winner = playRound(playerSelection, computerSelection);
+        if (winner === "Player") {
+            playerScore++;
+            console.log("You win. " + playerSelection + " beats " + computerSelection);
+        } else if (winner === "Computer") {
+            computerScore++;
+            console.log("You lose. " + playerSelection + " loses to " + computerSelection);
+        } else {
+            console.log("Draw.");
+        }
+    }
+    console.log("final scores");
+    console.log("you: " + playerScore);
+    console.log("Computer: " + computerScore);
+    if (playerScore > computerScore) {
+        console.log("You win.");
+    } else if (playerScore < computerScore) {
+        console.log("You lose.");
+    } else {
+        console.log("Draw");
+    }
+}
+
+game();
