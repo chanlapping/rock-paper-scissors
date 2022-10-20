@@ -22,8 +22,6 @@ function getComputerChoice() {
 // player selection should be case insensitive
 
 function playRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.toLowerCase();
-    computerSelection = computerSelection.toLowerCase();
     if (playerSelection === computerSelection ) {
         return "Draw";
     }
@@ -47,48 +45,52 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-// game function
-// play 5 rounds
-// keep scores. report winner at the end.
-// display result of each round
-// use prompt to get player selection
+// end game function
+// disable rock, paper and scissors buttons
+// reset scores to 0
+// enable play again button
 
-// player score = 0, computer score = 0
-// loop 5 times:
-//   get user selection
-//   get computer choice
-//   play one round, show result
-//   update scores
-// determine final result
-// log winner
-
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    for (let i = 0; i < 5; i++) {
-        let playerSelection = prompt("What is your choice? (rock, paper or scissors)");
-        let computerSelection = getComputerChoice();
-        let winner = playRound(playerSelection, computerSelection);
-        if (winner === "Player") {
-            playerScore++;
-            console.log("You win. " + playerSelection + " beats " + computerSelection);
-        } else if (winner === "Computer") {
-            computerScore++;
-            console.log("You lose. " + playerSelection + " loses to " + computerSelection);
-        } else {
-            console.log("Draw.");
-        }
-    }
-    console.log("final scores");
-    console.log("you: " + playerScore);
-    console.log("Computer: " + computerScore);
-    if (playerScore > computerScore) {
-        console.log("You win.");
-    } else if (playerScore < computerScore) {
-        console.log("You lose.");
-    } else {
-        console.log("Draw");
-    }
+function endGame() {
+    btns.forEach(btn => btn.disabled = true);
 }
 
-game();
+const btns = document.querySelectorAll('button');
+const display = document.querySelector('#display');
+const playerDisplay = document.querySelector('#player');
+const computerDisplay = document.querySelector('#computer');
+const resultDisplay = document.querySelector('#result');
+const scoreDisplay = document.querySelector('#score');
+const matchDisplay = document.querySelector('#match');
+
+let playerScore = 0;
+let computerScore = 0;
+
+btns.forEach(btn => btn.addEventListener('click', (e) => {
+    let playerSelection = e.target.id;
+    let computerSelection = getComputerChoice();
+    let winner = playRound(playerSelection, computerSelection);
+
+    if (winner === 'Player') {
+        playerScore++;
+        winner += ' wins';
+    } else if (winner === 'Computer') {
+        computerScore++;
+        winner += ' wins';
+    }
+
+    playerDisplay.textContent = playerSelection;
+    computerDisplay.textContent = computerSelection;
+    resultDisplay.textContent = winner;
+    scoreDisplay.textContent = 'player ' + playerScore + ' Computer ' + computerScore;
+
+    if (playerScore === 5) {
+        matchDisplay.textContent = 'Player wins the game.';
+        endGame();
+    }
+
+    if (computerScore === 5) {
+        matchDisplay.textContent = 'Computer wins the game.';
+        endGame();
+    }
+    
+}));
