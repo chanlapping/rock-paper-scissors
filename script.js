@@ -1,7 +1,3 @@
-// function getComputerChoice
-// randomly return rock, paper or scissors
-// generate random number 1 to 3
-// return choice accordingly
 
 function getComputerChoice() {
     let choice = Math.floor(Math.random() * 3);
@@ -15,11 +11,6 @@ function getComputerChoice() {
 
     return "scissors";
 }
-
-// function playRound
-// input: player selection, computer selection
-// return a string - declaring who is the winner
-// player selection should be case insensitive
 
 function playRound(playerSelection, computerSelection) {
     if (playerSelection === computerSelection ) {
@@ -45,16 +36,32 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-// end game function
-// disable rock, paper and scissors buttons
-// reset scores to 0
-// enable play again button
 
 function endGame() {
     btns.forEach(btn => btn.disabled = true);
+    newGameBtn.disabled = false;
 }
 
-const btns = document.querySelectorAll('button');
+function newGame() {
+    newGameBtn.disabled = true;
+    playerScore = 0;
+    computerScore = 0;
+    btns.forEach(btn => btn.disabled = false); 
+    playerDisplay.textContent = '';
+    computerDisplay.textContent = '';
+    scoreDisplay.textContent = '';
+    resultDisplay.textContent = '';
+    matchDisplay.textContent = '';
+}
+
+const icons = {
+    rock: '&#9994;',
+    paper: '&#9995;',
+    scissors: '&#9996;'
+};
+
+const btns = document.querySelectorAll('.choice');
+const newGameBtn = document.querySelector('#new-game');
 const display = document.querySelector('#display');
 const playerDisplay = document.querySelector('#player');
 const computerDisplay = document.querySelector('#computer');
@@ -78,8 +85,8 @@ btns.forEach(btn => btn.addEventListener('click', (e) => {
         winner += ' wins';
     }
 
-    playerDisplay.textContent = playerSelection;
-    computerDisplay.textContent = computerSelection;
+    playerDisplay.innerHTML = e.target.innerHTML;
+    computerDisplay.innerHTML = icons[computerSelection];
     resultDisplay.textContent = winner;
     scoreDisplay.textContent = 'player ' + playerScore + ' Computer ' + computerScore;
 
@@ -94,3 +101,7 @@ btns.forEach(btn => btn.addEventListener('click', (e) => {
     }
     
 }));
+
+newGameBtn.addEventListener('click', newGame);
+
+newGame();
